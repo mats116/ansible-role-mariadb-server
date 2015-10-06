@@ -1,0 +1,42 @@
+- name: modify apt-key
+  apt_key: 
+    url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xcbcb082a1bb943db'
+
+- name: modify repository
+  apt_repository:
+    repo: "{{ item }}"
+  with_items:
+    - "deb http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ version[:4] }}/ubuntu trusty main"
+    - "deb-src http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ version[:4] }}/ubuntu trusty main"
+
+- name: install
+  apt:
+    name: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - "mariadb-server={{ version }}*"
+    - "mariadb-common={{ version }}*"
+    - "mariadb-client={{ version }}*"
+
+- name: modify my.cnf
+  template:
+    src: my.cnf
+    dest: /etc/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: mariadb-server is enabled
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: modify logrotate conf
+  template:
+    src: logrotate
+    dest: /etc/logrotate.d/mysql-server
+    owner: root
+    group: root
+    mode: 0644
