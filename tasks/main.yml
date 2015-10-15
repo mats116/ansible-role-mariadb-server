@@ -15,14 +15,15 @@
     state: present
     force: yes
   with_items:
+    - python-mysqldb
     - "mariadb-server={{ version }}*"
     - "mariadb-common={{ version }}*"
     - "mariadb-client={{ version }}*"
 
 - name: modify my.cnf
   template:
-    src: my.cnf
-    dest: /etc/my.cnf
+    src: mysql/my.cnf
+    dest: /etc/mysql/my.cnf
     owner: root
     group: root
     mode: 0644
@@ -40,3 +41,14 @@
     owner: root
     group: root
     mode: 0644
+
+- name: modify root password
+  mysql_user:
+    name: root
+    password: "{{ root.password }}"
+
+- name: modify ~/.my.cnf
+  template:
+    src: my.cnf
+    dest: ~/.my.cnf
+    mode: 0600
