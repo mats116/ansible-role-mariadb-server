@@ -1,4 +1,3 @@
-version: ""
+mariadb_version: ""
 
-root:
-  password: "root"
+mariadb_root_password: root

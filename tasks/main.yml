@@ -16,9 +16,9 @@
     force: yes
   with_items:
     - python-mysqldb
-    - "mariadb-server={{ version }}*"
-    - "mariadb-common={{ version }}*"
-    - "mariadb-client={{ version }}*"
+    - "mariadb-server={{ mariadb_version }}*"
+    - "mariadb-common={{ mariadb_version }}*"
+    - "mariadb-client={{ mariadb_version }}*"
 
 - name: modify my.cnf
   template:
@@ -45,7 +45,7 @@
 - name: modify root password
   mysql_user:
     name: root
-    password: "{{ root.password }}"
+    password: "{{ mariadb_root_password }}"
 
 - name: modify ~/.my.cnf
   template:
