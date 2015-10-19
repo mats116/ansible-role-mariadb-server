@@ -6,8 +6,8 @@
   apt_repository:
     repo: "{{ item }}"
   with_items:
-    - "deb http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ version[:4] }}/ubuntu trusty main"
-    - "deb-src http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ version[:4] }}/ubuntu trusty main"
+    - "deb http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ '.'.join(mariadb_version.split('.')[0:2]) }}/ubuntu trusty main"
+    - "deb-src http://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/repo/{{ '.'.join(mariadb_version.split('.')[0:2]) }}/ubuntu trusty main"
 
 - name: install
   apt:
